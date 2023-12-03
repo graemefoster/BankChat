@@ -1,0 +1,38 @@
+﻿@page "/bankchat"
+@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+
+@inject ChatApiClient ChatApi
+
+<PageTitle>Chat</PageTitle>
+
+<h1>Chat</h1>
+
+@if (_chatResponse == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Chat Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@_chatResponse</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    private ChatResponse? _chatResponse;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _chatResponse = await ChatApi.GetChatResponse("Hello there!");
+    }
+}
